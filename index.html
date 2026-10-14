@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ec407a">
+  <title>A Little Question ❤️</title>
+  <style>
+    :root {
+      color-scheme: only light;
+      --pink: #ff5b91;
+      --red: #c9184a;
+      --glass: rgba(255,255,255,.17);
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #fff;
+      background: linear-gradient(135deg, #ffabc8 0%, #ff5b91 38%, #ed426f 67%, #9f174b 100%);
+      isolation: isolate;
+    }
+    .sparkles {
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255,255,255,.4) 1px, transparent 2px);
+      background-size: 55px 65px, 93px 87px;
+      background-position: 0 0, 28px 37px;
+      animation: sparkle 5s ease-in-out infinite alternate;
+    }
+    @keyframes sparkle { from { opacity: .35; } to { opacity: .9; } }
+    .background-heart {
+      position: fixed; z-index: -1; bottom: -60px; pointer-events: none;
+      color: rgba(255,255,255,.65);
+      text-shadow: 0 0 16px rgba(255,255,255,.5);
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      12% { opacity: .65; }
+      85% { opacity: .5; }
+      100% { transform: translateY(-120svh) rotate(35deg); opacity: 0; }
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 440px);
+      padding: clamp(26px, 7vw, 42px) 24px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 30px;
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 70px rgba(88,0,35,.25), inset 0 1px 0 rgba(255,255,255,.35);
+      animation: appear .7s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .main-heart {
+      display: block;
+      margin-bottom: 14px;
+      font-size: 54px;
+      animation: pulse 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba(255,255,255,.5));
+    }
+    @keyframes pulse { 50% { transform: scale(1.12); } }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(1.65rem, 7vw, 2.2rem);
+      line-height: 1.2;
+      letter-spacing: -.035em;
+      text-shadow: 0 3px 16px rgba(100,0,35,.25);
+    }
+    .message { margin: 0 auto 25px; line-height: 1.65; color: rgba(255,255,255,.94); }
+    .yes-row { display: flex; justify-content: center; }
+    button {
+      min-height: 48px;
+      padding: 13px 25px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    #yes-button {
+      color: #c9184a;
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(88,0,35,.25);
+    }
+    #yes-button:hover { transform: translateY(-3px) scale(1.04); }
+    #no-button {
+      position: fixed;
+      z-index: 4;
+      left: 50%;
+      top: calc(50% + 170px);
+      transform: translateX(-50%);
+      min-width: 100px;
+      color: #fff;
+      background: rgba(255,255,255,.19);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: 0 6px 20px rgba(88,0,35,.15);
+      transition: left .16s ease, top .16s ease;
+    }
+    .hint { margin: 22px 0 0; font-size: .78rem; color: rgba(255,255,255,.85); }
+    #celebration {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      overflow: hidden;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 35%, #ff9fbe 0%, #ef477e 48%, #a20e49 100%);
+    }
+    #celebration.active { display: grid; animation: fade-in .45s ease both; }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .celebration-content { position: relative; z-index: 2; max-width: 580px; }
+    .celebration-content .main-heart { font-size: clamp(76px, 19vw, 120px); }
+    .celebration-content h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2.8rem, 11vw, 4.7rem);
+      line-height: 1.05;
+      text-shadow: 0 5px 25px rgba(90,0,30,.25);
+    }
+    .celebration-content p { line-height: 1.7; font-size: clamp(1rem, 4vw, 1.25rem); }
+    #replay-button { color: #c9184a; background: #fff; margin-top: 10px; }
+    .rain-heart {
+      position: absolute; top: -12vh; z-index: 1; pointer-events: none;
+      animation: fall linear forwards;
+      filter: drop-shadow(0 0 7px rgba(255,255,255,.4));
+    }
+    @keyframes fall {
+      to { transform: translateY(125svh) rotate(540deg); opacity: .1; }
+    }
+    @media (max-height: 560px) {
+      .card { padding: 18px; }
+      .main-heart { font-size: 38px; margin-bottom: 7px; }
+      .message { margin-bottom: 15px; }
+      .hint { margin-top: 12px; }
+      #no-button { top: auto; bottom: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sparkles" aria-hidden="true"></div>
+
+  <main class="card" id="question-card">
+    <span class="main-heart" aria-hidden="true">💗</span>
+    <h1>❤️ Will You Become My Girlfriend? ❤️</h1>
+    <p class="message">I have a little question for someone special…<br>Will you make this moment magical? ✨</p>
+    <div class="yes-row">
+      <button id="yes-button" type="button">YES 💖</button>
+    </div>
+    <p class="hint">A little question, a lot of courage 💕</p>
+  </main>
+
+  <button id="no-button" type="button">NO 🙈</button>
+
+  <section id="celebration" role="dialog" aria-modal="true" aria-labelledby="celebration-title">
+    <div class="celebration-content">
+      <span class="main-heart" aria-hidden="true">💖</span>
+      <h2 id="celebration-title">YAY!!! 🎉</h2>
+      <p>You just made this moment extra special!<br>Sending you a thousand happy hearts. ❤️</p>
+      <button id="replay-button" type="button">Replay the magic ✨</button>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const noButton = document.getElementById("no-button");
+      const yesButton = document.getElementById("yes-button");
+      const celebration = document.getElementById("celebration");
+      const replayButton = document.getElementById("replay-button");
+      let rainInterval = null;
+
+      // Pick a new visible position, avoiding the previous spot where possible.
+      function moveNoButton() {
+        const margin = 12;
+        const maxX = Math.max(margin, window.innerWidth - noButton.offsetWidth - margin);
+        const maxY = Math.max(margin, window.innerHeight - noButton.offsetHeight - margin);
+        const old = noButton.getBoundingClientRect();
+        let x = margin;
+        let y = margin;
+
+        for (let attempt = 0; attempt < 25; attempt++) {
+          x = margin + Math.random() * Math.max(0, maxX - margin);
+          y = margin + Math.random() * Math.max(0, maxY - margin);
+          if (Math.hypot(x - old.left, y - old.top) > 100) break;
+        }
+        noButton.style.transform = "none";
+        noButton.style.left = `${Math.min(x, maxX)}px`;
+        noButton.style.top = `${Math.min(y, maxY)}px`;
+      }
+
+      // pointerdown runs for touchscreen taps before a normal click can occur.
+      noButton.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        moveNoButton();
+      });
+      noButton.addEventListener("pointerenter", event => {
+        if (event.pointerType === "mouse") moveNoButton();
+      });
+      noButton.addEventListener("click", event => {
+        event.preventDefault();
+        moveNoButton();
+      });
+      window.addEventListener("resize", moveNoButton);
+
+      const symbols = ["💗", "💕", "💖", "♥", "♡"];
+      for (let i = 0; i < 18; i++) {
+        const heart = document.createElement("span");
+        heart.className = "background-heart";
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.fontSize = `${16 + Math.random() * 24}px`;
+        heart.style.animationDuration = `${8 + Math.random() * 12}s`;
+        heart.style.animationDelay = `${-Math.random() * 18}s`;
+        document.body.appendChild(heart);
+      }
+
+      function addRainHeart() {
+        const heart = document.createElement("span");
+        heart.className = "rain-heart";
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.fontSize = `${18 + Math.random() * 30}px`;
+        heart.style.animationDuration = `${3 + Math.random() * 4}s`;
+        celebration.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove(), { once: true });
+      }
+
+      yesButton.addEventListener("click", () => {
+        celebration.classList.add("active");
+        clearInterval(rainInterval);
+        rainInterval = setInterval(addRainHeart, 100);
+        for (let i = 0; i < 30; i++) setTimeout(addRainHeart, i * 45);
+        replayButton.focus({ preventScroll: true });
+      });
+
+      replayButton.addEventListener("click", () => {
+        celebration.classList.remove("active");
+        clearInterval(rainInterval);
+        rainInterval = null;
+        celebration.querySelectorAll(".rain-heart").forEach(heart => heart.remove());
+        yesButton.focus({ preventScroll: true });
+      });
+    })();
+  </script>
+</body>
+</html>
